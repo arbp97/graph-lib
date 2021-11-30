@@ -3,6 +3,7 @@
 #pragma once
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /*
     Un grafo consiste de una lista de listas de vertices
@@ -13,10 +14,10 @@
 
     Representacion de ejemplo:
     [AdjList]   
-       [0]  ->  [1] ->  [2] ->  [3]
-       [1]  ->  [0]
-       [2]  ->  [0] ->  [3] 
-       [3]  ->  [0] ->  [2]
+       (head)[0]  ->  [1] ->  [2] ->  [3]
+       (head)[1]  ->  [0]
+       (head)[2]  ->  [0] ->  [3] 
+       (head)[3]  ->  [0] ->  [2]
 */
 
 /*
@@ -25,48 +26,51 @@
 */
 typedef struct Vertex
 {
-    int data;
+    int index;
     struct Vertex* next;
 } Vertex;
 
 /*
     Esta es la lista de adyacencias del vertice en
-    cuestion. contiene el puntero al primer elemento y
-    un puntero al ultimo (para facilitar la creacion
-    de nuevos nodos).
+    cuestion. contiene el puntero al primer elemento.
 */
 typedef struct AdjList
 {
     Vertex* head;
-    Vertex* tail;
 } AdjList;
 
 /*
     Esta estructura representa el grafo, posee una
     lista con todas las sublistas de vertices
-    adyacentes.
+    adyacentes, y la cantidad de vertices.
 */
 typedef struct Graph
 {
+    int vertices;
     AdjList* list;
 } Graph;
 
 /**********************************************************/
 
 /*
-    Devuelve un grafo vacio.
+    Devuelve un grafo vacio de N vertices.
 */
-Graph* createGraph();
+Graph* createGraph(int vertices);
+
+/*
+    Devuelve una lista de vertices vacia.
+*/
+AdjList* createAdjList(int vertices);
 
 /*
     Devuelve un nuevo vertice.
 */
-Vertex* createVertex(int data);
+Vertex* createVertex(int index);
 
 /*
     Agrega un vertice al grafo con el dato especificado.
 */
-void addVertex(Graph* graph, int data);
+void addVertex(Graph* graph, Vertex* vertex);
 
 /*
     Agrega una arista entre dos vertices.
@@ -77,6 +81,16 @@ void addEdge(Graph* graph, Vertex* src, Vertex* dest);
     Encuentra y devuelve un vertice en un grafo segun
     el dato.
 */
-Vertex* findVertex(Graph* graph, int data);
+Vertex* findVertex(Graph* graph, int index);
+
+/*
+    Elimina un grafo.
+*/
+void deleteGraph(Graph* graph);
+
+/*
+    Revisa si un grafo esta vacio.
+*/
+bool isGraphEmpty(Graph* graph);
 
 #endif //! _GRAPH_H_
