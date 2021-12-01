@@ -2,34 +2,41 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("HELLO");
+    printf("HELLO THERE");
     getchar();
 
-    Graph* graph = createGraph(4);
+    Graph *graph = createGraph(4);
     printf("Graph created");
     getchar();
-    Vertex* v_1 = createVertex(0);
-    Vertex* v_2 = createVertex(1);
-    Vertex* v_3 = createVertex(2);
-    Vertex* v_4 = createVertex(3);
-    Vertex* v_5 = createVertex(4);
+    Vertex *v_0 = createVertex(0);
+    Vertex *v_1 = createVertex(1);
+    Vertex *v_2 = createVertex(2);
+    Vertex *v_3 = createVertex(3);
+    Vertex *v_4 = createVertex(4);
     printf("Vertices created");
     getchar();
 
+    addVertex(graph, v_0);
     addVertex(graph, v_1);
     addVertex(graph, v_2);
     addVertex(graph, v_3);
-    addVertex(graph, v_4);
     printf("Vertices added");
     getchar();
 
-    addVertex(graph, v_5);
+    addVertex(graph, v_4);
     printf("Non prepared vertex added");
     getchar();
 
-    for (size_t i = 0; i < graph->vertices; i++)
-        printf("[%i]\n", graph->list[i].head->index);
-    
+    addEdge(graph, v_0, v_1);
+    addEdge(graph, v_0, v_2);
+    addEdge(graph, v_0, v_3);
+
+    addEdge(graph, v_2, v_3);
+
+    addEdge(graph, v_4, v_1);
+
+    showGraph(graph);
+
     getchar();
     return 0;
 }
