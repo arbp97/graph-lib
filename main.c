@@ -2,12 +2,10 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("HELLO THERE");
-    getchar();
-
     Graph *graph = createGraph(4);
     printf("Graph created");
     getchar();
+ 
     Vertex *v_0 = createVertex(0);
     Vertex *v_1 = createVertex(1);
     Vertex *v_2 = createVertex(2);
@@ -22,6 +20,7 @@ int main(int argc, char const *argv[])
     addVertex(graph, v_3);
     printf("Vertices added");
     getchar();
+    if(isGraphEmpty(graph)) printf("This should NOT appear"); 
 
     addVertex(graph, v_4);
     printf("Non prepared vertex added");
@@ -36,7 +35,13 @@ int main(int argc, char const *argv[])
     addEdge(graph, v_4, v_1);
 
     showGraph(graph);
-
+    getchar();
+    deleteGraph(graph);
+    printf("\nShowing graph?");
+    getchar();
+    showGraph(graph);
+    printf("\nBY SIGMAR YES");
+    if(graph) printf("\nBY SIGMAR NO");
     getchar();
     return 0;
 }

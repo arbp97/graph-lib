@@ -90,6 +90,12 @@ Vertex *findVertex(Graph *graph, int index);
 void deleteGraph(Graph *graph);
 
 /*
+    Elimina una arista entre dos grafos
+    (unidireccional, utilizado por deleteGraph)
+*/
+void deleteEdge(AdjList *list, Vertex *src);
+
+/*
     Revisa si un grafo esta vacio.
 */
 bool isGraphEmpty(Graph *graph);

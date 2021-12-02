@@ -94,7 +94,7 @@ void addEdge(Graph *graph, Vertex *src, Vertex *dest)
             graph->list[src->index].tail = new_edge_dest;
         }
 
-        /* ya que no es un grafo dirigido, la referencia es bidireccional */
+        /* ya que no es un grafo dirigido, la referencia es bidireccional 0*/
         if (graph->list[dest->index].head == graph->list[dest->index].tail)
         {
             graph->list[dest->index].tail = new_edge_src;
@@ -127,14 +127,95 @@ Vertex *findVertex(Graph *graph, int index)
     return found_vertex;
 }
 
-void deleteGraph(Graph *graph) {}
+void deleteEdge(AdjList *list, Vertex *src)
+{
+    if (list->head == list->tail)
+    {
+        /*
+            Si hay solo un elemento en la lista, entonces
+            solo asignamos NULL a la cola y la cabeza.
+        */
+        list->tail = NULL;
+        list->head = NULL;
+    }
+    else
+    {
+        /*
+            Si hay mas de un elemento, hay tres casos:
+            -el vertice se encuentra al principio de la lista
+            -el vertice se encuentra al final
+            -el vertice se encuentra en el medio.
+        */
+
+        Vertex *cursor = NULL;
+        // contiene el nodo previo al cursor
+        Vertex *aux_cursor = NULL;
+        bool found = false;
+        cursor = list->head;
+
+        while (cursor && !found)
+        {
+            if (src == list->head)
+            {
+                list->head = src->next;
+                found = true;
+            }
+            else if (src == list->tail)
+            {
+                list->tail = aux_cursor;
+                aux_cursor->next = NULL;
+                found = true;
+            }
+            else if (src == cursor)
+            {
+                aux_cursor->next = cursor->next;
+                found = true;
+            }
+
+            aux_cursor = cursor;
+            cursor = cursor->next;
+        }
+    }
+
+    free(src);
+    src = NULL;
+}
+
+void deleteGraph(Graph *graph)
+{
+    Vertex *cursor = NULL;
+    Vertex *aux_cursor = NULL;
+
+    for (size_t i = 0; i < graph->vertices; i++)
+    {
+        cursor = graph->list[i].head;
+        printf("Adjlist vertex: %i", i);
+        getchar();
+        while (cursor)
+        {
+            printf("Edge: %i", cursor->index);
+            getchar();
+            aux_cursor = cursor->next;
+            deleteEdge(&graph->list[i], cursor);
+            printf("Deleted\n");
+            cursor = aux_cursor;
+        }
+    }
+
+    free(graph->list);
+    graph->list = NULL;
+    free(graph);
+    graph = NULL;
+
+    printf("Graph deleted");
+}
 
 bool isGraphEmpty(Graph *graph)
 {
     bool empty = true;
 
-    if (!graph->list[0].head)
-        empty = false;
+    if(graph->list)
+        if(graph->list->head) empty = false;
 
     return empty;
 }
@@ -143,16 +224,20 @@ void showGraph(Graph *graph)
 {
     Vertex *cursor = NULL;
 
-    for (size_t i = 0; i < graph->vertices; i++)
+    if (!isGraphEmpty(graph))
     {
-        cursor = graph->list[i].head;
-
-        while (cursor)
+        for (size_t i = 0; i < graph->vertices; i++)
         {
-            printf("[%i] -> ", cursor->index);
-            cursor = cursor->next;
-        }
+            cursor = graph->list[i].head;
 
-        printf("\n");
+            while (cursor)
+            {
+                printf("[%i] -> ", cursor->index);
+                cursor = cursor->next;
+            }
+
+            printf("\n");
+        }
     }
+    else printf("Graph is EMPTY");
 }
