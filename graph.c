@@ -181,14 +181,14 @@ void deleteEdge(AdjList *list, Vertex *src)
     src = NULL;
 }
 
-void deleteGraph(Graph *graph)
+void deleteGraph(Graph **graph)
 {
     Vertex *cursor = NULL;
     Vertex *aux_cursor = NULL;
 
-    for (size_t i = 0; i < graph->vertices; i++)
+    for (size_t i = 0; i < (*graph)->vertices; i++)
     {
-        cursor = graph->list[i].head;
+        cursor = (*graph)->list[i].head;
         printf("Adjlist vertex: %i", i);
         getchar();
         while (cursor)
@@ -196,16 +196,16 @@ void deleteGraph(Graph *graph)
             printf("Edge: %i", cursor->index);
             getchar();
             aux_cursor = cursor->next;
-            deleteEdge(&graph->list[i], cursor);
+            deleteEdge(&(*graph)->list[i], cursor);
             printf("Deleted\n");
             cursor = aux_cursor;
         }
     }
 
-    free(graph->list);
-    graph->list = NULL;
-    free(graph);
-    graph = NULL;
+    free((*graph)->list);
+    (*graph)->list = NULL;
+    free((*graph));
+    *(graph) = NULL;
 
     printf("Graph deleted");
 }
@@ -214,8 +214,9 @@ bool isGraphEmpty(Graph *graph)
 {
     bool empty = true;
 
-    if(graph->list)
-        if(graph->list->head) empty = false;
+    if(graph)
+        if(graph->list)
+            if(graph->list->head) empty = false;
 
     return empty;
 }

@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
 
     showGraph(graph);
     getchar();
-    deleteGraph(graph);
+    deleteGraph(&graph);
     printf("\nShowing graph?");
     getchar();
     showGraph(graph);

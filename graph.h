@@ -87,7 +87,7 @@ Vertex *findVertex(Graph *graph, int index);
 /*
     Elimina un grafo.
 */
-void deleteGraph(Graph *graph);
+void deleteGraph(Graph **graph);
 
 /*
     Elimina una arista entre dos grafos
