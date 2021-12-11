@@ -1,6 +1,6 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
-#pragma once
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>

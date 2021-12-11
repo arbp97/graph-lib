@@ -1,8 +1,9 @@
 #include "graph.h"
+#include "queue.h"
 
 int main(int argc, char const *argv[])
 {
-    Graph *graph = createGraph(4);
+    /*Graph *graph = createGraph(4);
     printf("Graph created");
     getchar();
  
@@ -37,11 +38,30 @@ int main(int argc, char const *argv[])
     showGraph(graph);
     getchar();
     deleteGraph(&graph);
-    printf("\nShowing graph?");
+
     getchar();
-    showGraph(graph);
-    printf("\nBY SIGMAR YES");
-    if(graph) printf("\nBY SIGMAR NO");
-    getchar();
+    */
+    /****************************************************************/
+
+    Queue* q = create_queue();
+
+    puts(is_queue_empty(q) ? "true" : "false");
+
+    Node* new_node = create_node(1);
+    Node* new_node_2 = create_node(2);
+
+    push(&q, new_node);
+    push(&q, new_node_2);
+
+    printf("Q->FIRST %i Q->LAST %i",q->first->data,q->last->data);
+    //puts(is_queue_empty(q) ? "true" : "false");
+
+    Node* out = pull(&q);
+
+    printf("first after pull %i", q->first->data);
+
+    out = pull(&q);
+    puts(is_queue_empty(q) ? "true" : "false");
+
     return 0;
 }

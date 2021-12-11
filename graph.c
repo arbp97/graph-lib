@@ -186,7 +186,7 @@ void deleteGraph(Graph **graph)
     Vertex *cursor = NULL;
     Vertex *aux_cursor = NULL;
 
-    for (size_t i = 0; i < (*graph)->vertices; i++)
+    for (int i = 0; i < (*graph)->vertices; i++)
     {
         cursor = (*graph)->list[i].head;
         printf("Adjlist vertex: %i", i);
