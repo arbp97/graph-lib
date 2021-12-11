@@ -84,6 +84,8 @@ void add_edge(Graph *graph, Vertex *src, Vertex *dest);
 */
 Vertex *find_vertex(Graph *graph, int index);
 
+// Retorna la cantidad de aristas del vertice
+int count_edges(Graph* graph, Vertex* vertex);
 /*
     Elimina un grafo.
 */
@@ -104,5 +106,8 @@ bool is_graph_empty(Graph *graph);
     Imprime el grafo
 */
 void show_graph(Graph *graph);
+
+// breadth-first search
+void bfs(Graph* graph, Vertex* root);
 
 #endif //! _GRAPH_H_

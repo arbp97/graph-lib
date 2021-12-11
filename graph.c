@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "queue.h"
 
 Graph *create_graph(int vertices)
 {
@@ -127,6 +128,20 @@ Vertex *find_vertex(Graph *graph, int index)
     return found_vertex;
 }
 
+int count_edges(Graph* graph, Vertex* vertex)
+{
+    Vertex* cursor = graph->list[vertex->index].head;
+    int count = 0;
+
+    while(cursor)
+    {
+        count++;
+        cursor = cursor->next;
+    }
+
+    return count;
+}
+
 void delete_edge(AdjList *list, Vertex *src)
 {
     if (list->head == list->tail)
@@ -241,4 +256,40 @@ void show_graph(Graph *graph)
         }
     }
     else printf("Graph is EMPTY");
+}
+
+void bfs(Graph* graph, Vertex* root)
+{
+    Queue* queue = create_queue();
+
+    // this is used to mark vertices as visited/unvisited
+    struct visits
+    {
+        Vertex* v;
+        bool visited;
+    } visits[graph->vertices];
+
+    // load the struct w/ the vertices of graph
+    for(int i = 0; i < graph->vertices; i++)
+    {
+        visits[i].v = graph->list[i].head;
+        visits[i].visited = false;
+    }
+
+    // root node is marked as visited, we start from there
+    visits[root->index].visited = true;
+
+    // enqueue root
+    push(&queue, create_node(root->index));
+
+    Node* aux = NULL;
+
+    while(!is_queue_empty(queue))
+    {
+        aux = pull(&queue);
+
+        /*for all edges v of aux in graph
+             if v is not visited
+                  enqueue v and mark as visited*/
+    }
 }
