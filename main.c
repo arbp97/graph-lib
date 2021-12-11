@@ -56,12 +56,16 @@ int main(int argc, char const *argv[])
     printf("Q->FIRST %i Q->LAST %i",q->first->data,q->last->data);
     //puts(is_queue_empty(q) ? "true" : "false");
 
-    Node* out = pull(&q);
+    //Node* out = pull(&q);
 
-    printf("first after pull %i", q->first->data);
+    printf("\nfirst after pull %i\n", q->first->data);
 
-    out = pull(&q);
+    //out = pull(&q);
     puts(is_queue_empty(q) ? "true" : "false");
+
+    delete_queue(&q);
+
+    puts(q ? "Not deleted" : "deleted");
 
     return 0;
 }

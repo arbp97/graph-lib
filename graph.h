@@ -56,53 +56,53 @@ typedef struct Graph
 /*
     Devuelve un grafo vacio de N vertices.
 */
-Graph *createGraph(int vertices);
+Graph *create_graph(int vertices);
 
 /*
     Devuelve una lista de vertices vacia.
 */
-AdjList *createAdjList(int vertices);
+AdjList *create_adj_list(int vertices);
 
 /*
     Devuelve un nuevo vertice.
 */
-Vertex *createVertex(int index);
+Vertex *create_vertex(int index);
 
 /*
     Agrega un vertice al grafo con el dato especificado.
 */
-void addVertex(Graph *graph, Vertex *vertex);
+void add_vertex(Graph *graph, Vertex *vertex);
 
 /*
     Agrega una arista entre dos vertices.
 */
-void addEdge(Graph *graph, Vertex *src, Vertex *dest);
+void add_edge(Graph *graph, Vertex *src, Vertex *dest);
 
 /*
     Encuentra y devuelve un vertice en un grafo segun
     el dato.
 */
-Vertex *findVertex(Graph *graph, int index);
+Vertex *find_vertex(Graph *graph, int index);
 
 /*
     Elimina un grafo.
 */
-void deleteGraph(Graph **graph);
+void delete_graph(Graph **graph);
 
 /*
     Elimina una arista entre dos grafos
     (unidireccional, utilizado por deleteGraph)
 */
-void deleteEdge(AdjList *list, Vertex *src);
+void delete_edge(AdjList *list, Vertex *src);
 
 /*
     Revisa si un grafo esta vacio.
 */
-bool isGraphEmpty(Graph *graph);
+bool is_graph_empty(Graph *graph);
 
 /*
     Imprime el grafo
 */
-void showGraph(Graph *graph);
+void show_graph(Graph *graph);
 
 #endif //! _GRAPH_H_

@@ -87,3 +87,63 @@ bool is_queue_empty(Queue* queue)
 
   return true;
 }
+
+Node* find_node(Queue* queue, int data)
+{
+  if(!queue)
+  {
+    printf("ERROR: queue is null");
+    return NULL;
+  }
+  else if(is_queue_empty(queue))
+  {
+    printf("ERROR: queue is empty");
+    return NULL;
+  }
+
+  Node* cursor = queue->first;
+  Node* result = NULL;
+
+  while(cursor)
+  {
+    if(cursor->data == data)
+    {
+      result = cursor;
+      cursor = NULL;
+    }
+    else
+    {
+      cursor = cursor->next;
+    }
+  }
+
+  return result;
+}
+
+void delete_queue(Queue** queue)
+{
+  if(!queue)
+  {
+    printf("/nERROR: queue is null");
+  }
+  else
+  {
+    if(!is_queue_empty(*queue))
+    {
+      Node* cursor = (*queue)->first;
+      Node* aux = NULL;
+
+      while(cursor)
+      {
+        aux = cursor->next;
+        free(cursor);
+        cursor = NULL;
+
+        cursor = aux;
+      }
+    }
+
+    free(*queue);
+    *queue = NULL;
+  }
+}

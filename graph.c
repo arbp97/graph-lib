@@ -1,21 +1,21 @@
 #include "graph.h"
 
-Graph *createGraph(int vertices)
+Graph *create_graph(int vertices)
 {
     Graph *graph = (Graph *)malloc(sizeof(Graph));
     graph->vertices = vertices;
     graph->list = NULL;
 
-    graph->list = createAdjList(vertices);
+    graph->list = create_adj_list(vertices);
 
     return graph;
 }
 
-AdjList *createAdjList(int vertices)
+AdjList *create_adj_list(int vertices)
 {
     AdjList *list = (AdjList *)malloc(vertices * sizeof(AdjList));
 
-    for (size_t i = 0; i < vertices; i++)
+    for (int i = 0; i < vertices; i++)
     {
         list[i].head = NULL;
         list[i].tail = NULL;
@@ -24,7 +24,7 @@ AdjList *createAdjList(int vertices)
     return list;
 }
 
-Vertex *createVertex(int index)
+Vertex *create_vertex(int index)
 {
     Vertex *vertex = (Vertex *)malloc(sizeof(Vertex));
     vertex->index = index;
@@ -33,9 +33,9 @@ Vertex *createVertex(int index)
     return vertex;
 }
 
-void addVertex(Graph *graph, Vertex *vertex)
+void add_vertex(Graph *graph, Vertex *vertex)
 {
-    if (!findVertex(graph, vertex->index))
+    if (!find_vertex(graph, vertex->index))
     {
         if (vertex->index > (graph->vertices - 1))
         {
@@ -58,9 +58,9 @@ void addVertex(Graph *graph, Vertex *vertex)
         printf("ERROR: Ya existe ese nodo en el grafo");
 }
 
-void addEdge(Graph *graph, Vertex *src, Vertex *dest)
+void add_edge(Graph *graph, Vertex *src, Vertex *dest)
 {
-    if (findVertex(graph, src->index) && findVertex(graph, dest->index))
+    if (find_vertex(graph, src->index) && find_vertex(graph, dest->index))
     {
         /*
             apuntamos el puntero next del vertice destino
@@ -69,8 +69,8 @@ void addEdge(Graph *graph, Vertex *src, Vertex *dest)
             Se deben crear nuevos vertices, ya que lo estamos
             agregando a una lista distinta de la principal.
         */
-        Vertex *new_edge_dest = createVertex(dest->index);
-        Vertex *new_edge_src = createVertex(src->index);
+        Vertex *new_edge_dest = create_vertex(dest->index);
+        Vertex *new_edge_src = create_vertex(src->index);
 
         /*
             Se cargan las nuevas aristas entre los vertices:
@@ -110,7 +110,7 @@ void addEdge(Graph *graph, Vertex *src, Vertex *dest)
         printf("ERROR: Los nodos deben pertenecer al grafo");
 }
 
-Vertex *findVertex(Graph *graph, int index)
+Vertex *find_vertex(Graph *graph, int index)
 {
     int i;
     Vertex *found_vertex = NULL;
@@ -127,7 +127,7 @@ Vertex *findVertex(Graph *graph, int index)
     return found_vertex;
 }
 
-void deleteEdge(AdjList *list, Vertex *src)
+void delete_edge(AdjList *list, Vertex *src)
 {
     if (list->head == list->tail)
     {
@@ -181,7 +181,7 @@ void deleteEdge(AdjList *list, Vertex *src)
     src = NULL;
 }
 
-void deleteGraph(Graph **graph)
+void delete_graph(Graph **graph)
 {
     Vertex *cursor = NULL;
     Vertex *aux_cursor = NULL;
@@ -196,7 +196,7 @@ void deleteGraph(Graph **graph)
             printf("Edge: %i", cursor->index);
             getchar();
             aux_cursor = cursor->next;
-            deleteEdge(&(*graph)->list[i], cursor);
+            delete_edge(&(*graph)->list[i], cursor);
             printf("Deleted\n");
             cursor = aux_cursor;
         }
@@ -210,7 +210,7 @@ void deleteGraph(Graph **graph)
     printf("Graph deleted");
 }
 
-bool isGraphEmpty(Graph *graph)
+bool is_graph_empty(Graph *graph)
 {
     bool empty = true;
 
@@ -221,13 +221,13 @@ bool isGraphEmpty(Graph *graph)
     return empty;
 }
 
-void showGraph(Graph *graph)
+void show_graph(Graph *graph)
 {
     Vertex *cursor = NULL;
 
-    if (!isGraphEmpty(graph))
+    if (!is_graph_empty(graph))
     {
-        for (size_t i = 0; i < graph->vertices; i++)
+        for (int i = 0; i < graph->vertices; i++)
         {
             cursor = graph->list[i].head;
 

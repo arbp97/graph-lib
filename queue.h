@@ -43,4 +43,7 @@ void delete_queue(Queue** queue);
 
 bool is_queue_empty(Queue* queue);
 
+// returns the node if its found in Q
+Node* find_node(Queue* queue, int data);
+
 #endif //! _QUEUE_H_
