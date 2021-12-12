@@ -3,47 +3,34 @@
 
 int main(int argc, char const *argv[])
 {
-    /*Graph *graph = createGraph(4);
-    printf("Graph created");
-    getchar();
+    Graph *graph = create_graph(4);
  
-    Vertex *v_0 = createVertex(0);
-    Vertex *v_1 = createVertex(1);
-    Vertex *v_2 = createVertex(2);
-    Vertex *v_3 = createVertex(3);
-    Vertex *v_4 = createVertex(4);
-    printf("Vertices created");
-    getchar();
+    Vertex *v_0 = create_vertex(0);
+    Vertex *v_1 = create_vertex(1);
+    Vertex *v_2 = create_vertex(2);
+    Vertex *v_3 = create_vertex(3);
 
-    addVertex(graph, v_0);
-    addVertex(graph, v_1);
-    addVertex(graph, v_2);
-    addVertex(graph, v_3);
-    printf("Vertices added");
-    getchar();
-    if(isGraphEmpty(graph)) printf("This should NOT appear"); 
+    add_vertex(graph, v_0);
+    add_vertex(graph, v_1);
+    add_vertex(graph, v_2);
+    add_vertex(graph, v_3);
 
-    addVertex(graph, v_4);
-    printf("Non prepared vertex added");
-    getchar();
+    add_edge(graph, v_0, v_1);
+    add_edge(graph, v_0, v_2);
+    add_edge(graph, v_1, v_2);
+    add_edge(graph, v_2, v_0);
+    add_edge(graph, v_2, v_3);
+    add_edge(graph, v_3, v_3);
 
-    addEdge(graph, v_0, v_1);
-    addEdge(graph, v_0, v_2);
-    addEdge(graph, v_0, v_3);
+    show_graph(graph);
 
-    addEdge(graph, v_2, v_3);
+    bfs(graph, graph->list[2].head);
 
-    addEdge(graph, v_4, v_1);
+    delete_graph(&graph);
 
-    showGraph(graph);
-    getchar();
-    deleteGraph(&graph);
-
-    getchar();
-    */
     /****************************************************************/
 
-    Queue* q = create_queue();
+    /*Queue* q = create_queue();
 
     puts(is_queue_empty(q) ? "true" : "false");
 
@@ -65,7 +52,9 @@ int main(int argc, char const *argv[])
 
     delete_queue(&q);
 
-    puts(q ? "Not deleted" : "deleted");
+    puts(q ? "Not deleted" : "deleted");*/
+
+
 
     return 0;
 }

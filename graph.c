@@ -61,19 +61,22 @@ void add_vertex(Graph *graph, Vertex *vertex)
 
 void add_edge(Graph *graph, Vertex *src, Vertex *dest)
 {
-    if (find_vertex(graph, src->index) && find_vertex(graph, dest->index))
+    if(find_vertex(graph, src->index) && find_vertex(graph, dest->index))
     {
-        /*
+        // si ya existe una arista, no se agrega
+        if (!has_edge(graph, src, dest))
+        {
+            /*
             apuntamos el puntero next del vertice destino
             a la cabeza de la lista del source, y cambiamos
             la cabeza de esta lista por dest, para agregarlo.
             Se deben crear nuevos vertices, ya que lo estamos
             agregando a una lista distinta de la principal.
-        */
-        Vertex *new_edge_dest = create_vertex(dest->index);
-        Vertex *new_edge_src = create_vertex(src->index);
+            */
+            Vertex *new_edge_dest = create_vertex(dest->index);
+            Vertex *new_edge_src = create_vertex(src->index);
 
-        /*
+            /*
             Se cargan las nuevas aristas entre los vertices:
             Aqui se hace una diferencia entre si el vertice
             ya tenia aristas o no:
@@ -83,32 +86,36 @@ void add_edge(Graph *graph, Vertex *src, Vertex *dest)
             -si tiene, entonces primero se agrega en el puntero
             siguiente a la cola, y luego se cambia la referencia
             de la cola, siendo esta ahora el nodo que ingresamos
-        */
-        if (graph->list[src->index].head == graph->list[src->index].tail)
-        {
-            graph->list[src->index].tail = new_edge_dest;
-            graph->list[src->index].head->next = graph->list[src->index].tail;
-        }
-        else
-        {
-            graph->list[src->index].tail->next = new_edge_dest;
-            graph->list[src->index].tail = new_edge_dest;
-        }
+            */
+            if (graph->list[src->index].head == graph->list[src->index].tail)
+            {
+                graph->list[src->index].tail = new_edge_dest;
+                graph->list[src->index].head->next = graph->list[src->index].tail;
+            }
+            else
+            {
+                graph->list[src->index].tail->next = new_edge_dest;
+                graph->list[src->index].tail = new_edge_dest;
+            }
 
-        /* ya que no es un grafo dirigido, la referencia es bidireccional 0*/
-        if (graph->list[dest->index].head == graph->list[dest->index].tail)
-        {
-            graph->list[dest->index].tail = new_edge_src;
-            graph->list[dest->index].head->next = graph->list[dest->index].tail;
-        }
-        else
-        {
-            graph->list[dest->index].tail->next = new_edge_src;
-            graph->list[dest->index].tail = new_edge_src;
+            // si src y dest son iguales entonces solo es necesario una referencia
+            if(src->index != dest->index)
+            {
+                /* ya que no es un grafo dirigido, la referencia es bidireccional */
+                if (graph->list[dest->index].head == graph->list[dest->index].tail)
+                {
+                    graph->list[dest->index].tail = new_edge_src;
+                    graph->list[dest->index].head->next = graph->list[dest->index].tail;
+                }
+                else
+                {
+                    graph->list[dest->index].tail->next = new_edge_src;
+                    graph->list[dest->index].tail = new_edge_src;
+                }
+            }
         }
     }
-    else
-        printf("ERROR: Los nodos deben pertenecer al grafo");
+    else printf("ERROR: Los nodos deben pertenecer al grafo");
 }
 
 Vertex *find_vertex(Graph *graph, int index)
@@ -140,6 +147,19 @@ int count_edges(Graph* graph, Vertex* vertex)
     }
 
     return count;
+}
+
+bool has_edge(Graph* graph, Vertex* src, Vertex* dest)
+{
+    Vertex* cursor = graph->list[src->index].head->next;
+
+    while(cursor)
+    {
+        if(cursor->index == dest->index) return true;
+        cursor = cursor->next;
+    }
+
+    return false;
 }
 
 void delete_edge(AdjList *list, Vertex *src)
@@ -204,15 +224,11 @@ void delete_graph(Graph **graph)
     for (int i = 0; i < (*graph)->vertices; i++)
     {
         cursor = (*graph)->list[i].head;
-        printf("Adjlist vertex: %i", i);
-        getchar();
+
         while (cursor)
         {
-            printf("Edge: %i", cursor->index);
-            getchar();
             aux_cursor = cursor->next;
             delete_edge(&(*graph)->list[i], cursor);
-            printf("Deleted\n");
             cursor = aux_cursor;
         }
     }
@@ -221,8 +237,6 @@ void delete_graph(Graph **graph)
     (*graph)->list = NULL;
     free((*graph));
     *(graph) = NULL;
-
-    printf("Graph deleted");
 }
 
 bool is_graph_empty(Graph *graph)
@@ -283,13 +297,31 @@ void bfs(Graph* graph, Vertex* root)
     push(&queue, create_node(root->index));
 
     Node* aux = NULL;
+    Vertex* cursor = NULL;
 
     while(!is_queue_empty(queue))
     {
+        // dequeue visited node
         aux = pull(&queue);
+        printf("\n%i ", aux->data);
 
-        /*for all edges v of aux in graph
+        /*for each edge v of aux
              if v is not visited
                   enqueue v and mark as visited*/
+
+        cursor = find_vertex(graph, aux->data);
+
+        while(cursor)
+        {
+            if(!visits[cursor->index].visited)
+            {
+                push(&queue, create_node(cursor->index));
+                visits[cursor->index].visited = true;
+            }
+            cursor = cursor->next;
+        }
+
     }
+
+    delete_queue(&queue);
 }

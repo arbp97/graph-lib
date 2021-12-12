@@ -86,6 +86,9 @@ Vertex *find_vertex(Graph *graph, int index);
 
 // Retorna la cantidad de aristas del vertice
 int count_edges(Graph* graph, Vertex* vertex);
+
+// retorna true/false si encuentra arista o no
+bool has_edge(Graph* graph, Vertex* src, Vertex* dest);
 /*
     Elimina un grafo.
 */
@@ -107,7 +110,7 @@ bool is_graph_empty(Graph *graph);
 */
 void show_graph(Graph *graph);
 
-// breadth-first search
+// shows breadth-first search order
 void bfs(Graph* graph, Vertex* root);
 
 #endif //! _GRAPH_H_
