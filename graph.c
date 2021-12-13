@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "queue.h"
+#include "stack.h"
 
 Graph *create_graph(int vertices)
 {
@@ -61,7 +62,7 @@ void add_vertex(Graph *graph, Vertex *vertex)
 
 void add_edge(Graph *graph, Vertex *src, Vertex *dest)
 {
-    if(find_vertex(graph, src->index) && find_vertex(graph, dest->index))
+    if (find_vertex(graph, src->index) && find_vertex(graph, dest->index))
     {
         // si ya existe una arista, no se agrega
         if (!has_edge(graph, src, dest))
@@ -99,7 +100,7 @@ void add_edge(Graph *graph, Vertex *src, Vertex *dest)
             }
 
             // si src y dest son iguales entonces solo es necesario una referencia
-            if(src->index != dest->index)
+            if (src->index != dest->index)
             {
                 /* ya que no es un grafo dirigido, la referencia es bidireccional */
                 if (graph->list[dest->index].head == graph->list[dest->index].tail)
@@ -115,7 +116,8 @@ void add_edge(Graph *graph, Vertex *src, Vertex *dest)
             }
         }
     }
-    else printf("ERROR: Los nodos deben pertenecer al grafo");
+    else
+        printf("ERROR: Los nodos deben pertenecer al grafo");
 }
 
 Vertex *find_vertex(Graph *graph, int index)
@@ -135,12 +137,12 @@ Vertex *find_vertex(Graph *graph, int index)
     return found_vertex;
 }
 
-int count_edges(Graph* graph, Vertex* vertex)
+int count_edges(Graph *graph, Vertex *vertex)
 {
-    Vertex* cursor = graph->list[vertex->index].head;
+    Vertex *cursor = graph->list[vertex->index].head;
     int count = 0;
 
-    while(cursor)
+    while (cursor)
     {
         count++;
         cursor = cursor->next;
@@ -149,13 +151,14 @@ int count_edges(Graph* graph, Vertex* vertex)
     return count;
 }
 
-bool has_edge(Graph* graph, Vertex* src, Vertex* dest)
+bool has_edge(Graph *graph, Vertex *src, Vertex *dest)
 {
-    Vertex* cursor = graph->list[src->index].head->next;
+    Vertex *cursor = graph->list[src->index].head->next;
 
-    while(cursor)
+    while (cursor)
     {
-        if(cursor->index == dest->index) return true;
+        if (cursor->index == dest->index)
+            return true;
         cursor = cursor->next;
     }
 
@@ -243,9 +246,10 @@ bool is_graph_empty(Graph *graph)
 {
     bool empty = true;
 
-    if(graph)
-        if(graph->list)
-            if(graph->list->head) empty = false;
+    if (graph)
+        if (graph->list)
+            if (graph->list->head)
+                empty = false;
 
     return empty;
 }
@@ -269,22 +273,23 @@ void show_graph(Graph *graph)
             printf("\n");
         }
     }
-    else printf("Graph is EMPTY");
+    else
+        printf("Graph is EMPTY");
 }
 
-void bfs(Graph* graph, Vertex* root)
+void bfs(Graph *graph, Vertex *root)
 {
-    Queue* queue = create_queue();
+    Queue *queue = create_queue();
 
     // this is used to mark vertices as visited/unvisited
     struct visits
     {
-        Vertex* v;
+        Vertex *v;
         bool visited;
     } visits[graph->vertices];
 
     // load the struct w/ the vertices of graph
-    for(int i = 0; i < graph->vertices; i++)
+    for (int i = 0; i < graph->vertices; i++)
     {
         visits[i].v = graph->list[i].head;
         visits[i].visited = false;
@@ -294,15 +299,15 @@ void bfs(Graph* graph, Vertex* root)
     visits[root->index].visited = true;
 
     // enqueue root
-    push(&queue, create_node(root->index));
+    enqueue(&queue, create_node(root->index));
 
-    Node* aux = NULL;
-    Vertex* cursor = NULL;
+    Node *aux = NULL;
+    Vertex *cursor = NULL;
 
-    while(!is_queue_empty(queue))
+    while (!is_queue_empty(queue))
     {
         // dequeue visited node
-        aux = pull(&queue);
+        aux = dequeue(&queue);
         printf("\n%i ", aux->data);
 
         /*for each edge v of aux
@@ -311,17 +316,68 @@ void bfs(Graph* graph, Vertex* root)
 
         cursor = find_vertex(graph, aux->data);
 
-        while(cursor)
+        while (cursor)
         {
-            if(!visits[cursor->index].visited)
+            if (!visits[cursor->index].visited)
             {
-                push(&queue, create_node(cursor->index));
+                enqueue(&queue, create_node(cursor->index));
                 visits[cursor->index].visited = true;
             }
             cursor = cursor->next;
         }
-
     }
 
     delete_queue(&queue);
+}
+
+void dfs(Graph *graph, Vertex *root)
+{
+    Stack *stack = create_stack();
+
+    // this is used to mark vertices as visited/unvisited
+    struct visits
+    {
+        Vertex *v;
+        bool visited;
+    } visits[graph->vertices];
+
+    // load the struct w/ the vertices of graph
+    for (int i = 0; i < graph->vertices; i++)
+    {
+        visits[i].v = graph->list[i].head;
+        visits[i].visited = false;
+    }
+
+    // root node is marked as visited, we start from there
+    visits[root->index].visited = true;
+
+    push(&stack, create_node(root->index));
+
+    Node *aux = NULL;
+    Vertex *cursor = NULL;
+
+    while (!is_stack_empty(stack))
+    {
+        // stack visited node
+        aux = pop(&stack);
+        printf("\n%i ", aux->data);
+
+        /*for each edge v of aux
+             if v is not visited
+                  enqueue v and mark as visited*/
+
+        cursor = find_vertex(graph, aux->data);
+
+        while (cursor)
+        {
+            if (!visits[cursor->index].visited)
+            {
+                push(&stack, create_node(cursor->index));
+                visits[cursor->index].visited = true;
+            }
+            cursor = cursor->next;
+        }
+    }
+
+    delete_stack(&stack);
 }

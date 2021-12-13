@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "queue.h"
+#include "stack.h"
 
 int main(int argc, char const *argv[])
 {
@@ -25,6 +26,10 @@ int main(int argc, char const *argv[])
     show_graph(graph);
 
     bfs(graph, graph->list[2].head);
+
+    getchar();
+
+    dfs(graph, graph->list[2].head);
 
     delete_graph(&graph);
 
@@ -54,7 +59,23 @@ int main(int argc, char const *argv[])
 
     puts(q ? "Not deleted" : "deleted");*/
 
+    /****************************************************************/
 
+    /*Stack* stack = create_stack();
+
+
+    push(&stack, create_node(0));
+    printf("0\n");
+    push(&stack, create_node(1));
+    printf("1\n");
+    push(&stack, create_node(2));
+    printf("2\n");
+
+    printf("\n%i\n", pop(&stack)->data);
+    printf("%i\n", pop(&stack)->data);
+    printf("%i\n", pop(&stack)->data);
+
+    delete_stack(&stack);*/
 
     return 0;
 }

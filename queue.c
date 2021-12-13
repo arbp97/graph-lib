@@ -20,7 +20,7 @@ Node* create_node(int data)
   return new;
 }
 
-void push(Queue** queue, Node* node)
+void enqueue(Queue** queue, Node* node)
 {
   /*
    * Cases:
@@ -49,7 +49,7 @@ void push(Queue** queue, Node* node)
   }
 }
 
-Node* pull(Queue** queue)
+Node* dequeue(Queue** queue)
 {
   /*
    * Return the first in q and remove it

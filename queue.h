@@ -33,10 +33,10 @@ Queue* create_queue();
 Node* create_node(int data);
 
 // Pushes node into the queue
-void push(Queue** queue, Node* node);
+void enqueue(Queue** queue, Node* node);
 
 // Returns the first node in the queue
-Node* pull(Queue** queue);
+Node* dequeue(Queue** queue);
 
 // Deletes queue and nodes
 void delete_queue(Queue** queue);

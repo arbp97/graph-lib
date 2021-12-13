@@ -110,7 +110,10 @@ bool is_graph_empty(Graph *graph);
 */
 void show_graph(Graph *graph);
 
-// shows breadth-first search order
+// shows breadth-first search order. uses a queue
 void bfs(Graph* graph, Vertex* root);
+
+// shows depth-first search order. uses a stack
+void dfs(Graph* graph, Vertex* root);
 
 #endif //! _GRAPH_H_
